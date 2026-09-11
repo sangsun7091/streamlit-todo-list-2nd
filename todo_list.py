@@ -38,13 +38,19 @@ st.header("Today's to-dos:", divider="gray")
 for idx, task in enumerate(task_list):
     task_col, delete_col = st.columns([0.8, 0.2])
     label = f"~~{task.name}~~" if task.is_done else task.name
-    checked = task_col.checkbox(label, task.is_done, key=f"task_{idx}")
+
+    # checked = task_col.checkbox(label, task.is_done, key=f"task_{idx}")
+    # key에 idx 대신 task.id 사용
+    checked = task_col.checkbox(label, task.is_done, key=f"task_{task.id}")
+
     if checked and not task.is_done:
         mark_done(task)
         st.rerun()
     elif not checked and task.is_done:
         mark_not_done(task)
         st.rerun()
-    if delete_col.button("Delete", key=f"delete_{idx}"):
+
+    # if delete_col.button("Delete", key=f"delete_{idx}"):
+    if delete_col.button("Delete", key=f"delete_{task.id}"):
         delete_task(idx)
         st.rerun()
